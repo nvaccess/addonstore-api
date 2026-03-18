@@ -1,0 +1,54 @@
+<form data-turbo-frame="addonList" data-turbo-action="replace">
+  <fieldset>
+    <legend>Filter add-ons</legend>
+    <span class="filter-group-parent">
+      <span class="filter-group-left">
+        <span class="filter-group-item">
+          <label for="language-select">Language:</label>
+          <select id="language-select" name="language">
+            {% for language in languages | sort %}
+            <option value="{{ language }}" {% if language == query.language %}selected{% endif %}>
+              {{ language | getLocaleDisplayName(query.language) }}
+            </option>
+            {% endfor %}
+          </select>
+        </span>
+        <span class="filter-group-item">
+          <label for="apiVersion">NVDA version:</label>
+          <select id="apiVersion" name="apiVersion">
+            {% for apiVersion in apiVersions %}
+            <option value="{{ apiVersion['apiVer'] }}" {% if query.apiVersion | string == apiVersion["apiVer"] %}selected{% endif %}>
+              {{ apiVersion["description"] }}
+            </option>
+            {% endfor %}
+          </select>
+        </span>
+      </span>
+      <span class="filter-group-right">
+        <span class="filter-group-item">
+          <label for="channel">Channel:</label>
+          <select id="channel" name="channel">
+            {% for channel in channels %}
+            <option value="{{ channel }}" {% if channel==query.channel %}selected{% endif %}>
+              {{ channel | capitalize }}
+            </option>
+            {% endfor %}
+          </select>
+        </span>
+        <span class="filter-group-item">
+          <input type="checkbox" id="includeIncompatible" name="includeIncompatible" {% if query.includeIncompatible %}checked{% endif %}>
+          <label for="includeIncompatible">Include incompatible add-ons</label>
+        </span>
+      </span>
+    </span>
+    <span class="filter-group-parent">
+      <span class="filter-group-search">
+        <span class="filter-group-item">
+          <label for="search-input">Search:</label>
+          <input type="search" id="search-input" name="searchQuery" value="{{ query.searchQuery }}" placeholder="Search add-ons..." autocomplete="off" maxlength="100">
+        </span>
+      </span>
+    </span>
+    <input type="submit" value="Apply">
+  </fieldset>
+</form>

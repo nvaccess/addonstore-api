@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>Add-ons are programs which provide new or changed functionality for NVDA.
+Add-ons are developed by the NVDA community, or external companies and are unaffiliated with NV Access.
+Add-ons are not vetted by NV Access and may have unrestricted functionality and access to information.
+As with any software, it is important to trust the developer of an add-on before using it.
+Please refer to the <a href="https://download.nvaccess.org/documentation/userGuide.html#Addons">User Guide</a> for more information on add-ons.
+</p>
+<span id="addonListGroup">
+  <h2>Available Add-ons</h2>
+  {% include "partials/addonFilters.html" %}
+  {% include "partials/addonList.html" %}
+</span>
+{% include "partials/addonDetails.html" %}
+{% endblock %}

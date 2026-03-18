@@ -1,0 +1,14 @@
+* text=auto eol=lf
+
+# Git files
+.gitignore       text
+.gitattributes   text
+
+# Documentation files
+*.md     text
+*.txt    text
+
+# Source files
+# ============
+# Python Sources
+*.py     text diff=python

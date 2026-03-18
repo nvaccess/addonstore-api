@@ -1,0 +1,160 @@
+
+#content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 1.25rem;
+    max-width: 100%;
+}
+h1 {
+    margin-left: 1.25rem;
+}
+footer {
+    margin: 1.25rem;
+    text-align: center;
+}
+
+@media (min-width: 700px) {
+    #addonDetails {
+        max-width: 48%;
+    }
+    #addonListGroup {
+        max-width: 48%;
+    }
+}
+@media (max-width: 700px) {
+    #addonDetails {
+        width: 100%;
+    }
+    #addonListGroup {
+        width: 100%;
+    }
+}
+#addonListGroup {
+    padding-right: 2%;
+}
+#addonList {
+    height: 80vh;
+    overflow: auto;
+    display: block;
+}
+
+/* Filters */
+.filter-group-parent {
+    flex-direction: row;
+    display: flex;
+}
+.filter-group-left,
+.filter-group-right {
+    display: flex;
+    flex-direction: column;
+    margin: 0.3125rem;
+}
+.filter-group-search {
+    display: flex;
+    width: 100%;
+    margin: 0.3125rem;
+}
+.filter-group-search .filter-group-item {
+    width: 100%;
+}
+.filter-group-item {
+    display: flex;
+    margin: 0.3125rem;
+}
+.filter-group-item select,
+.filter-group-item input[type="text"] {
+    width: 100%;
+}
+.filter-group-item label {
+    min-width: fit-content;
+    margin-right: 0.3125rem;
+}
+
+/* Buttons */
+input[type="submit"] {
+    background-color: #472f5f;
+    border: white 1px solid;
+    color: white;
+    padding: 0.3125em 0.625em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 0.3125rem;
+}
+#addonLinks a {
+    background-color: #472f5f;
+    border: white 1px solid;
+    color: white;
+    padding: 0.3125em 0.625em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 0.3125rem;
+}
+#addonLinks a:hover,
+#addonLinks a:focus,
+input[type="submit"]:hover,
+input[type="submit"]:focus {
+    background-color: #7541a8;
+}
+
+/* Table styles */
+#addonListGroup table {
+    width: 100%;
+    padding-top: 0.3125rem;
+}
+#addonDetails table {
+    width: 100%;
+}
+th {
+    text-align: left;
+}
+td, th {
+    padding: 0.4375rem 0.625rem;
+}
+tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+#addonListGroup tbody th a {
+    color: #472f5f;
+}
+#addonListGroup thead {
+    background-color: #472f5f;
+    color: white;
+}
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Add-on details */
+#emptySelection {
+    font-weight: bolder;
+    font-size: xx-large;
+    margin: 1.25rem 0;
+}
+#addonDetails pre {
+    white-space: pre-wrap;
+    max-height: 30rem;
+    margin-top: 0.625rem;
+    overflow: auto;
+}
+#addonDetailsTableContainer {
+    max-width: 100%;
+    overflow-x: auto;
+    display: block;
+}
+
+.sr-only {
+    position:absolute;
+    left:-10000px;
+    top:auto;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+}

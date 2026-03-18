@@ -1,0 +1,22 @@
+<turbo-frame id="addonList" target="addonDetails">
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Version</th>
+      <th>Channel</th>
+      <th>Publisher</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for addon in query.matchingAddons %}
+    <tr>
+      <th scope="row"><a href="{{ url_for('frontend.index', **query.forAddon(addon['addonId']).asdict()) }}">{{ addon["displayName"] }}</a></th>
+      <td>{{ addon['addonVersionName'] }}</td>
+      <td>{{ addon['channel'] }}</td>
+      <td>{{ addon['publisher'] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</turbo-frame>

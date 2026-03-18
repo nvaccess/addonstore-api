@@ -1,0 +1,58 @@
+<turbo-frame id="addonDetails" data-turbo-action="replace">
+{% if query.selectedAddon %}
+<h2>{{ query.selectedAddon["displayName"] }}</h2>
+<nav id="addonLinks">
+  <a href="{{ query.selectedAddon['URL'] }}">Download</a>
+  <a href="{{ query.selectedAddon['sourceURL'] }}">Source Code</a>
+  <a href="{{ query.selectedAddon['homepage'] }}">Homepage</a>
+  <a href="{{ query.selectedAddon['reviewUrl'] }}">Reviews</a>
+</nav>
+<pre>{{ query.selectedAddon["description"] }}</pre>
+<div id="addonDetailsTableContainer">
+  <table>
+    <tbody>
+      <tr>
+        <th scope="row">Publisher:</th>
+        <td>{{ query.selectedAddon["publisher"] }}</td>
+      </tr>
+      <tr>
+        <th scope="row">ID:</th>
+        <td>{{ query.selectedAddon["addonId"] }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Version:</th>
+        <td>{{ query.selectedAddon["addonVersionName"] }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Channel:</th>
+        <td>{{ query.selectedAddon["channel"] }}</td>
+      </tr>
+      <tr>
+        <th scope="row">License:</th>
+        <td>{{ query.selectedAddon["license"] }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Minimum NVDA version:</th>
+        <td>{{ query.selectedAddon["minNVDAVersion"] | stringifyMMP }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Last tested version:</th>
+        <td>{{ query.selectedAddon["lastTestedVersion"] | stringifyMMP }}</td>
+      </tr>
+      <tr>
+        <th scope="row">SHA256 sum:</th>
+        <td><code>{{ query.selectedAddon["sha256"] }}</code></td>
+      </tr>
+      {% if "submissionTime" in query.selectedAddon %}
+      <tr>
+        <th scope="row">Publication date:</th>
+        <td><time datetime="{{ query.selectedAddon['submissionTime'] | isoformatMilliTimestamp }}">{{ query.selectedAddon["submissionTime"] | humanizeMilliTimestamp }}</time></td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<h2>No add-on selected.</h2>
+{% endif %}
+</turbo-frame>
