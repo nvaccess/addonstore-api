@@ -8,7 +8,7 @@ prometheus-flask-exporter~=0.23.2
 portalocker~=3.2.0
 
 # HTTP Client
-requests==2.32.5
+requests==2.33.0
 
 # WSGI Server
 gevent~=25.9.1
