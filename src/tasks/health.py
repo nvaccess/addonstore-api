@@ -4,7 +4,6 @@
 
 """Health check functionality for the addon store."""
 
-import os
 import logging
 from http import HTTPStatus
 from flask import jsonify
@@ -14,49 +13,37 @@ log = logging.getLogger("addonStore.health")
 
 
 def check_health():
-	"""Perform health checks and return status."""
+	"""
+	Perform a lightweight readiness check.
+	Relies purely on in-memory state to prevent I/O exhaustion DoS.
+	"""
 	try:
-		# Check data folder exists and is accessible - no lock needed
-		data_folder = DataFolder.getDataFolderPath()
-		if not os.path.exists(data_folder):
-			return jsonify(
-				{
-					"status": "unhealthy",
-					"error": "Data folder not found",
-				},
-			), HTTPStatus.SERVICE_UNAVAILABLE
-
-		# Basic git check without requiring lock
-		if not os.path.exists(os.path.join(data_folder, ".git")):
-			return jsonify(
-				{
-					"status": "unhealthy",
-					"error": "Git repository not initialized",
-				},
-			), HTTPStatus.SERVICE_UNAVAILABLE
-
+		# If the hash isn't loaded, the app hasn't initialized its git data properly
 		if DataFolder._current_hash is None:
+			# Log the exact reason internally, but keep the external response generic
+			log.warning("Health check failed: Cache hash is not initialized.")
 			return jsonify(
 				{
 					"status": "unhealthy",
-					"error": "Cache hash not initialized",
 				},
 			), HTTPStatus.SERVICE_UNAVAILABLE
 
+		# Return minimal, non-sensitive data
 		return jsonify(
 			{
 				"status": "healthy",
 				"git_hash": DataFolder._current_hash,
-				"data_folder": data_folder,
 				"update_in_progress": DataFolder.is_updating(),
 			},
 		), HTTPStatus.OK
 
 	except Exception as e:
-		log.error(f"Health check failed: {str(e)}")
+		# Log the actual stack trace/error internally
+		log.exception(f"Healthcheck failed: {str(e)}")
+
+		# Return a generic, opaque error to the client
 		return jsonify(
 			{
 				"status": "unhealthy",
-				"error": str(e),
 			},
 		), HTTPStatus.SERVICE_UNAVAILABLE
