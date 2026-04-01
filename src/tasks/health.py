@@ -25,7 +25,7 @@ def check_health():
 			return jsonify(
 				{
 					"status": "unhealthy",
-				}
+				},
 			), HTTPStatus.SERVICE_UNAVAILABLE
 
 		# Return minimal, non-sensitive data
@@ -34,7 +34,7 @@ def check_health():
 				"status": "healthy",
 				"git_hash": DataFolder._current_hash,
 				"update_in_progress": DataFolder.is_updating(),
-			}
+			},
 		), HTTPStatus.OK
 
 	except Exception as e:
@@ -45,5 +45,5 @@ def check_health():
 		return jsonify(
 			{
 				"status": "unhealthy",
-			}
+			},
 		), HTTPStatus.SERVICE_UNAVAILABLE
