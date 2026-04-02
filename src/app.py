@@ -484,7 +484,7 @@ def create_app():
 			return Response("Branch reference missing", status=HTTPStatus.BAD_REQUEST)
 
 		# Get the configured branch from environment
-		configured_branch = os.getenv("branchRef", "refs/heads/views-staging")
+		configured_branch = os.getenv("branchRef", "refs/heads/main")
 		if request.json["ref"] != configured_branch:
 			log.info(
 				f"Skipping update for non-target branch: got {request.json['ref']}, configured for {configured_branch}",
