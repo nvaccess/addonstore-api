@@ -57,7 +57,7 @@ class StoreInfoProvider:
 	@DataFolder.accessForReading
 	def _jsonBasedGetAvailableApiVersions(self) -> list[str]:
 		"""Return API versions listed in the nvdaAPIVersions.json file contained in the transformed submission store:
-		https://github.com/nvaccess/addon-datastore/blob/views/nvdaAPIVersions.json
+		https://github.com/nvaccess/addonstore-views/blob/main/nvdaAPIVersions.json
 		JSON example:
 		[
 			{
@@ -134,7 +134,7 @@ class StoreInfoProvider:
 	@DataFolder.accessForReading
 	def getRichApiVersions(self) -> list[dict[str, str]]:
 		"""Return API versions listed in the nvdaAPIVersions.json file contained in the transformed submission store:
-		https://github.com/nvaccess/addon-datastore/blob/views/nvdaAPIVersions.json
+		https://github.com/nvaccess/addonstore-views/blob/main/nvdaAPIVersions.json
 		JSON example:
 		[
 			{

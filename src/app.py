@@ -452,7 +452,7 @@ def create_app():
 
 	@app.route("/update", methods=["POST"])
 	def update():
-		"""GitHub webhook endpoint for updating the addon-datastore."""
+		"""GitHub webhook endpoint for updating addonstore-views."""
 		# Verify webhook signature
 		signature_header = request.headers.get("X-Hub-Signature-256")
 		if not verify_github_signature(request.get_data(), signature_header):

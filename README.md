@@ -58,7 +58,7 @@ Available endpoints:
   * `npm install -g markdownlint-cli2`
 * A virtual environment
 * Install requirements.txt inside the virtual environment
-* The `addon-datastore` repository checked out locally to a views branch.
+* The `addonstore-views` repository checked out locally.
 
 ### Testing Local Changes
 
@@ -80,7 +80,7 @@ From the virtual environment
 
 ```sh
 FLASK_APP=app PYTHONPATH=./src TEMP=/tmp/ \
-dataViewsFolder=../../addon-datastore branchRef=views \
+dataViewsFolder=../../addon-datastore branchRef=main \
 COPYRIGHT_YEARS=2026 LOG_LEVEL=DEBUG \
 flask run
 ```
@@ -91,9 +91,9 @@ Required environment variables:
 
 * `PYTHONPATH`: path to `src`
 * `TEMP`: path to an existing folder to create temporary locks
-* `dataViewsFolder`: path to where your repository of `addon-datastore` is checked out locally
-* `branchRef`: Git branch to track for `addon-datastore`
-  * Default is `main`
+* `dataViewsFolder`: path to where your repository of `addonstore-views` is checked out locally
+* `branchRef`: Git branch to track for `addonstore-views`
+  * Default is `refs/heads/main`
 * `COPYRIGHT_YEARS`: String of years displayed on web front-end for add-on store
   * e.g. 2025-2026
 
