@@ -452,7 +452,7 @@ def create_app():
 
 	@app.route("/update", methods=["POST"])
 	def update():
-		"""GitHub webhook endpoint for updating the addon-datastore."""
+		"""GitHub webhook endpoint for updating addonstore-views."""
 		# Verify webhook signature
 		signature_header = request.headers.get("X-Hub-Signature-256")
 		if not verify_github_signature(request.get_data(), signature_header):
@@ -484,7 +484,7 @@ def create_app():
 			return Response("Branch reference missing", status=HTTPStatus.BAD_REQUEST)
 
 		# Get the configured branch from environment
-		configured_branch = os.getenv("branchRef", "refs/heads/views-staging")
+		configured_branch = os.getenv("branchRef", "refs/heads/main")
 		if request.json["ref"] != configured_branch:
 			log.info(
 				f"Skipping update for non-target branch: got {request.json['ref']}, configured for {configured_branch}",
