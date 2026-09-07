@@ -5,12 +5,13 @@
 """Module to abstract the details for the layout for the transformed submissions"""
 
 import enum
-from tasks.dataFolder import DataFolder
 import glob
 import json
 import logging
 import os
 from typing import TYPE_CHECKING
+
+from tasks.dataFolder import DataFolder
 
 if TYPE_CHECKING:
 	from addonStoreApi.addonApiVersion import MajorMinorPatch

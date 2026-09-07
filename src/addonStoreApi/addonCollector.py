@@ -2,19 +2,19 @@
 # This file may be used under the terms of the AGPL3 (GNU Affero General Public License version 3).
 # For more details see COPYING.md
 
-from collections.abc import Generator, Iterable
-from functools import lru_cache
 import json
 import re
+from collections.abc import Generator, Iterable
+from functools import lru_cache
 from glob import glob
 
 from tasks.dataFolder import DataFolder
 
-from .supportedLanguage import SupportedLanguage
 from .addonApiVersion import SupportedAddonApiVersion
+from .supportedLanguage import SupportedLanguage
 from .transformedSubmissions import (
-	StoreInfoProvider,
 	Channels,
+	StoreInfoProvider,
 )
 
 

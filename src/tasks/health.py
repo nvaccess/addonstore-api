@@ -6,7 +6,9 @@
 
 import logging
 from http import HTTPStatus
+
 from flask import jsonify
+
 from .dataFolder import DataFolder
 
 log = logging.getLogger("addonStore.health")
@@ -39,7 +41,7 @@ def check_health():
 
 	except Exception as e:
 		# Log the actual stack trace/error internally
-		log.exception(f"Healthcheck failed: {str(e)}")
+		log.exception(f"Healthcheck failed: {e!s}")
 
 		# Return a generic, opaque error to the client
 		return jsonify(

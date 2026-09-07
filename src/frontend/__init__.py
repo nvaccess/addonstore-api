@@ -2,25 +2,25 @@
 # This file may be used under the terms of the AGPL3 (GNU Affero General Public License version 3).
 # For more details see COPYING.md
 
-from dataclasses import dataclass
 import dataclasses
-from enum import Enum
-from functools import cached_property, lru_cache
 import json
 import logging
 import os
+from dataclasses import dataclass
+from datetime import date
+from enum import Enum
+from functools import cached_property, lru_cache
 from typing import Any, Literal
+
+from babel import Locale
+from babel.dates import format_date
 from flask import Blueprint, render_template, request
 
+from addonStoreApi.addonApiVersion import MajorMinorPatch, SupportedAddonApiVersion
 from addonStoreApi.addonCollector import FileCollector
 from addonStoreApi.supportedLanguage import SupportedLanguage
-
-from addonStoreApi.addonApiVersion import MajorMinorPatch, SupportedAddonApiVersion
 from addonStoreApi.transformedSubmissions import Channels, StoreInfoProvider
 from tasks.dataFolder import DataFolder
-from babel.dates import format_date
-from babel import Locale
-from datetime import date
 
 # Don't use getenv or environ.get,
 # as we want to fail if $COPYRIGHT_YEARS is not set
@@ -164,12 +164,10 @@ class Query:
 		else:
 			# No search term;
 			# just return all add-ons sorted by the specified field
-			return list(
-				sorted(
-					addonList,
-					key=self._getSortValue,
-					reverse=self.sortReverse,
-				),
+			return sorted(
+				addonList,
+				key=self._getSortValue,
+				reverse=self.sortReverse,
 			)
 
 	@cached_property

@@ -2,45 +2,42 @@
 # This file may be used under the terms of the AGPL3 (GNU Affero General Public License version 3).
 # For more details see COPYING.md
 
-import typing
+import hashlib
+import hmac
 import logging
 import os
-from http import HTTPStatus
-
-from werkzeug.routing import BaseConverter, ValidationError
-from addonStoreApi.addonApiVersion import MajorMinorPatch
-from tasks.dataFolder import DataFolder
-from tasks.health import check_health
-from datetime import datetime
+import re
+import subprocess
 import threading
-from queue import Queue, Empty
-from werkzeug.exceptions import NotFound
+from datetime import datetime
+from http import HTTPStatus
+from queue import Empty, Queue
 
 from flask import (
 	Flask,
 	Response,
-	request,
-	jsonify,
 	current_app,
+	jsonify,
+	request,
 )
 from flask_cors import CORS, cross_origin
-from prometheus_flask_exporter import PrometheusMetrics
 from prometheus_client import Counter
-import re
+from prometheus_flask_exporter import PrometheusMetrics
+from werkzeug.exceptions import NotFound
+from werkzeug.routing import BaseConverter, ValidationError
 
-from addonStoreApi.addonApiVersion import SupportedAddonApiVersion
-from addonStoreApi.supportedLanguage import SupportedLanguage
+from addonStoreApi.addonApiVersion import MajorMinorPatch, SupportedAddonApiVersion
 from addonStoreApi.addonCollector import (
 	FileCollector,
 )
+from addonStoreApi.supportedLanguage import SupportedLanguage
 from addonStoreApi.transformedSubmissions import (
-	StoreInfoProvider,
 	Channels,
+	StoreInfoProvider,
 )
-import hmac
-import hashlib
-import subprocess
 from frontend import frontend
+from tasks.dataFolder import DataFolder
+from tasks.health import check_health
 
 """ app.py gets loaded automatically by Flask
 Use this to configure routing.
@@ -86,7 +83,7 @@ def create_app():
 				metric_func()
 
 			except Exception as e:
-				log.warning(f"Error processing metrics: {str(e)}")
+				log.warning(f"Error processing metrics: {e!s}")
 
 	def ensure_metrics_worker():
 		"""Ensure the metrics worker thread is running."""
@@ -104,7 +101,7 @@ def create_app():
 				timeout=0.1,
 			)  # Short timeout to prevent blocking
 		except Exception as e:
-			log.warning(f"Failed to queue metric: {str(e)}")
+			log.warning(f"Failed to queue metric: {e!s}")
 
 	# Initialize Prometheus metrics with path excluded from auth
 	metrics = PrometheusMetrics(app)
@@ -305,7 +302,7 @@ def create_app():
 
 	@DataFolder.accessForReading
 	def _all(
-		includeChannels: typing.List[Channels],
+		includeChannels: list[Channels],
 		language: str,
 		apiVersion: MajorMinorPatch,
 	) -> Response:
@@ -344,7 +341,7 @@ def create_app():
 
 	@DataFolder.accessForReading
 	def _latest(
-		includeChannels: typing.List[Channels],
+		includeChannels: list[Channels],
 		language: str,
 	) -> Response:
 		try:
@@ -447,7 +444,7 @@ def create_app():
 			# Compare signatures
 			return hmac.compare_digest(signature, expected_signature)
 		except Exception as e:
-			log.error(f"Error verifying webhook signature: {str(e)}")
+			log.error(f"Error verifying webhook signature: {e!s}")
 			return False
 
 	@app.route("/update", methods=["POST"])
@@ -587,9 +584,9 @@ def create_app():
 				log.info(f"Repository updated successfully to {target_hash}")
 
 			except subprocess.CalledProcessError as e:
-				log.error(f"Git operation failed: {str(e)}")
+				log.error(f"Git operation failed: {e!s}")
 			except Exception as e:
-				log.error(f"Update failed: {str(e)}")
+				log.error(f"Update failed: {e!s}")
 			finally:
 				DataFolder._update_in_progress = False
 
