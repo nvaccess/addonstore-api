@@ -2,18 +2,19 @@
 # This file may be used under the terms of the AGPL3 (GNU Affero General Public License version 3).
 # For more details see COPYING.md
 
-from enum import IntEnum
-from functools import wraps
 import logging
 import os
 import pathlib
 import subprocess
+import threading
+from collections.abc import Callable
+from contextlib import contextmanager
+from enum import IntEnum
+from functools import wraps
 from time import time
-from typing import Callable, Optional
+
 from portalocker import AlreadyLocked, Lock
 from portalocker.constants import LockFlags
-import threading
-from contextlib import contextmanager
 
 """
 A set of tools which are used to ensure safe access to the addon store data folder.
@@ -156,7 +157,7 @@ class DataFolder:
 				DataFolder.log.warning("Found stale git index lock, cleaning up")
 				os.remove(os.path.join(repo_path, ".git", "index.lock"))
 		except Exception as e:
-			DataFolder.log.error(f"Error cleaning up git locks: {str(e)}")
+			DataFolder.log.error(f"Error cleaning up git locks: {e!s}")
 
 		# Configure git for safe directory access
 		DataFolder.log.info("Configuring git safe directory")
@@ -192,7 +193,7 @@ class DataFolder:
 					f"Cache hash updated to: {DataFolder._current_hash}",
 				)
 		except subprocess.CalledProcessError as e:
-			DataFolder.log.error(f"Failed to update cache hash: {str(e)}")
+			DataFolder.log.error(f"Failed to update cache hash: {e!s}")
 			# If we fail to get the hash but had a previous hash, keep using it
 			if DataFolder._current_hash is None:
 				# If we've never had a hash, use a fallback
@@ -304,7 +305,7 @@ class DataFolder:
 		def wrapper(*args, **kwargs):
 			# If this thread is already performing a read,
 			# there is no need to create a new read file.
-			readFile: Optional[pathlib.Path] = None
+			readFile: pathlib.Path | None = None
 			if not _ReadTracker.threadIsInRead():
 				# Ensure the writer is aware a read is ongoing
 				# This call can be blocked by the writer

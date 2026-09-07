@@ -3,6 +3,7 @@
 # For more details see COPYING.md
 
 from typing import NamedTuple
+
 from addonStoreApi.transformedSubmissions import StoreInfoProvider
 
 
